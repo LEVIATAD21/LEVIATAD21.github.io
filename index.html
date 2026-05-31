@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kawã Santos — Desenvolvedor Full-Stack & Cibersegurança</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0a0a0f; --bg2:#101018; --surface:#1c1c28;
+      --border:rgba(255,255,255,0.07); --accent:#5b8dee; --accent2:#a78bfa;
+      --green:#34d399; --orange:#fb923c; --text:#e8e8f0; --muted:#7b7b9a;
+      --font-head:'Syne',sans-serif; --font-body:'DM Sans',sans-serif;
+    }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:16px; line-height:1.6; overflow-x:hidden; }
+
+    /* NAV */
+    nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1.2rem 2.5rem; background:rgba(10,10,15,0.88); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+    .nav-logo { font-family:var(--font-head); font-weight:800; font-size:1.15rem; color:var(--text); text-decoration:none; }
+    .nav-logo span { color:var(--accent); }
+    .nav-links { display:flex; gap:1.8rem; list-style:none; }
+    .nav-links a { color:var(--muted); text-decoration:none; font-size:0.85rem; font-weight:500; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--text); }
+
+    /* HERO */
+    #hero { position:relative; min-height:100vh; display:flex; align-items:center; padding:8rem 2.5rem 4rem; overflow:hidden; }
+    .hero-grid { position:absolute; inset:0; background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px); background-size:60px 60px; mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 100%); }
+    .glow1 { position:absolute; width:600px; height:600px; border-radius:50%; background:radial-gradient(circle,rgba(91,141,238,0.12) 0%,transparent 70%); top:10%; left:-5%; pointer-events:none; }
+    .glow2 { position:absolute; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(167,139,250,0.08) 0%,transparent 70%); bottom:10%; right:5%; pointer-events:none; }
+    .hero-content { position:relative; z-index:1; max-width:820px; }
+    .badge { display:inline-flex; align-items:center; gap:0.5rem; padding:0.35rem 0.9rem; border:1px solid rgba(52,211,153,0.3); border-radius:100px; font-size:0.8rem; color:var(--green); margin-bottom:2rem; animation:fadeUp 0.6s ease both; }
+    .badge::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+    h1 { font-family:var(--font-head); font-size:clamp(2.8rem,7vw,5rem); font-weight:800; line-height:1.02; letter-spacing:-0.03em; margin-bottom:1.5rem; animation:fadeUp 0.6s ease 0.1s both; }
+    h1 .acc { color:var(--accent); }
+    .hero-desc { font-size:1.1rem; color:var(--muted); max-width:560px; line-height:1.75; margin-bottom:2.5rem; animation:fadeUp 0.6s ease 0.2s both; }
+    .hero-desc strong { color:var(--text); }
+    .hero-actions { display:flex; gap:1rem; flex-wrap:wrap; animation:fadeUp 0.6s ease 0.3s both; }
+    .btn-p { display:inline-flex; align-items:center; gap:0.5rem; padding:0.8rem 1.8rem; background:var(--accent); color:#fff; border:none; border-radius:8px; font-family:var(--font-body); font-size:0.9rem; font-weight:600; text-decoration:none; transition:background 0.2s,transform 0.15s; }
+    .btn-p:hover { background:#4a7de0; transform:translateY(-1px); }
+    .btn-o { display:inline-flex; align-items:center; gap:0.5rem; padding:0.8rem 1.8rem; background:transparent; color:var(--text); border:1px solid var(--border); border-radius:8px; font-family:var(--font-body); font-size:0.9rem; font-weight:500; text-decoration:none; transition:border-color 0.2s,background 0.2s,transform 0.15s; }
+    .btn-o:hover { border-color:rgba(255,255,255,0.2); background:rgba(255,255,255,0.04); transform:translateY(-1px); }
+    .stats-strip { display:flex; gap:3rem; margin-top:4rem; padding-top:2.5rem; border-top:1px solid var(--border); animation:fadeUp 0.6s ease 0.4s both; flex-wrap:wrap; }
+    .stat-item strong { display:block; font-family:var(--font-head); font-size:2rem; font-weight:800; letter-spacing:-0.04em; }
+    .stat-item span { font-size:0.8rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+
+    /* SHARED */
+    section { padding:5rem 2.5rem; position:relative; }
+    .sec-label { font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent); margin-bottom:1rem; }
+    .sec-title { font-family:var(--font-head); font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800; line-height:1.1; letter-spacing:-0.03em; margin-bottom:1rem; }
+    .sec-desc { color:var(--muted); max-width:500px; line-height:1.7; margin-bottom:3rem; }
+    .inner { max-width:1100px; margin:0 auto; }
+
+    /* ABOUT */
+    #sobre { background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+    .about-text p { color:var(--muted); line-height:1.8; margin-bottom:1.2rem; }
+    .about-text p strong { color:var(--text); }
+    .highlight-box { display:flex; align-items:center; gap:0.75rem; padding:1rem 1.2rem; background:rgba(91,141,238,0.07); border:1px solid rgba(91,141,238,0.2); border-radius:10px; margin-top:1.5rem; font-size:0.9rem; color:var(--text); }
+
+    /* SKILL CARDS */
+    .s-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.4rem; transition:border-color 0.2s,transform 0.2s; }
+    .s-card:hover { border-color:rgba(91,141,238,0.35); transform:translateY(-2px); }
+    .s-head { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem; }
+    .s-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+    .s-name { font-family:var(--font-head); font-weight:700; font-size:0.95rem; }
+    .tags { display:flex; flex-wrap:wrap; gap:0.4rem; }
+    .tag { font-size:0.72rem; padding:0.2rem 0.6rem; border-radius:100px; border:1px solid var(--border); color:var(--muted); background:rgba(255,255,255,0.03); }
+    .skills-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.2rem; }
+
+    /* PROJECTS */
+    #projetos { background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .proj-list { display:flex; flex-direction:column; gap:1.5rem; }
+    .proj-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; overflow:hidden; transition:border-color 0.3s; }
+    .proj-card:hover { border-color:rgba(91,141,238,0.28); }
+    .proj-inner { display:grid; grid-template-columns:1fr 1fr; min-height:340px; }
+
+    /* visuals */
+    .pv { display:flex; align-items:center; justify-content:center; padding:2.5rem; position:relative; overflow:hidden; }
+    .pv-blue  { background:linear-gradient(135deg,#0f172a,#1e293b,#0f1a2e); }
+    .pv-blue::before  { content:''; position:absolute; inset:0; background:radial-gradient(circle at 30% 40%,rgba(91,141,238,0.15) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(167,139,250,0.1) 0%,transparent 50%); }
+    .pv-orange { background:linear-gradient(135deg,#1a0a00,#2d1500,#1a0800); }
+    .pv-orange::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 30% 40%,rgba(251,146,60,0.15) 0%,transparent 50%); }
+    .pv-green  { background:linear-gradient(135deg,#001a12,#003326,#001a12); }
+    .pv-green::before  { content:''; position:absolute; inset:0; background:radial-gradient(circle at 30% 40%,rgba(52,211,153,0.15) 0%,transparent 50%); }
+
+    .browser { position:relative; z-index:1; width:100%; max-width:310px; background:#1a1a2e; border-radius:10px; border:1px solid rgba(255,255,255,0.1); overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.5); }
+    .b-bar { background:#12121e; padding:0.5rem 0.8rem; display:flex; align-items:center; gap:0.4rem; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .dot { width:7px; height:7px; border-radius:50%; }
+    .dr{background:#ff5f57} .dy{background:#febc2e} .dg{background:#28c840}
+    .b-url { margin-left:0.4rem; flex:1; background:rgba(255,255,255,0.05); border-radius:4px; padding:0.18rem 0.5rem; font-size:0.6rem; color:var(--muted); }
+    .b-body { padding:0.8rem; display:flex; flex-direction:column; gap:0.4rem; }
+    .mbar { height:5px; border-radius:3px; background:rgba(255,255,255,0.1); }
+    .w30{width:30%} .w40{width:40%} .w50{width:50%} .w60{width:60%} .w70{width:70%} .w80{width:80%} .w90{width:90%}
+    .mgrid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.35rem; }
+    .mcell { border-radius:4px; height:36px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.03); }
+    .mstrip { border-radius:5px; height:50px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:0.5rem; }
+    .mrow { display:flex; gap:0.4rem; align-items:center; }
+    .mavatar { width:20px; height:20px; border-radius:50%; flex-shrink:0; }
+    .mlines { flex:1; display:flex; flex-direction:column; gap:3px; }
+    .mdot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+
+    /* project info */
+    .proj-info { padding:2.2rem 2.4rem; display:flex; flex-direction:column; justify-content:center; }
+    .proj-type { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; font-weight:600; margin-bottom:0.6rem; }
+    .pt-b{color:var(--accent)} .pt-o{color:var(--orange)} .pt-g{color:var(--green)}
+    .proj-title { font-family:var(--font-head); font-size:1.4rem; font-weight:800; letter-spacing:-0.02em; margin-bottom:0.8rem; line-height:1.2; }
+    .proj-desc { color:var(--muted); font-size:0.88rem; line-height:1.7; margin-bottom:1.2rem; }
+    .feat-list { list-style:none; display:flex; flex-direction:column; gap:0.38rem; margin-bottom:1.4rem; }
+    .feat-list li { display:flex; align-items:flex-start; gap:0.55rem; font-size:0.84rem; color:var(--muted); }
+    .feat-list li::before { content:'→'; font-weight:700; flex-shrink:0; margin-top:1px; }
+    .fl-b li::before{color:var(--accent)} .fl-o li::before{color:var(--orange)} .fl-g li::before{color:var(--green)}
+    .t-stack { display:flex; flex-wrap:wrap; gap:0.4rem; }
+    .tt { font-size:0.7rem; padding:0.22rem 0.65rem; border-radius:100px; font-weight:500; }
+    .tt-b { background:rgba(91,141,238,0.1); border:1px solid rgba(91,141,238,0.2); color:var(--accent); }
+    .tt-o { background:rgba(251,146,60,0.1); border:1px solid rgba(251,146,60,0.2); color:var(--orange); }
+    .tt-g { background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2); color:var(--green); }
+
+    /* CERTS */
+    .certs-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1rem; }
+    .cert-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.3rem; display:flex; flex-direction:column; gap:0.4rem; transition:border-color 0.2s,transform 0.2s; }
+    .cert-card:hover { transform:translateY(-2px); }
+    .cert-card.cg:hover{border-color:rgba(52,211,153,0.3)} .cert-card.cb:hover{border-color:rgba(91,141,238,0.3)}
+    .c-inst { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; font-weight:600; }
+    .ci-g{color:var(--green)} .ci-b{color:var(--accent)}
+    .c-badge { display:inline-flex; align-items:center; font-size:0.7rem; font-weight:600; padding:0.2rem 0.5rem; border-radius:4px; width:fit-content; }
+    .cb-g { background:rgba(52,211,153,0.1); color:var(--green); border:1px solid rgba(52,211,153,0.2); }
+    .cb-b { background:rgba(91,141,238,0.1); color:var(--accent); border:1px solid rgba(91,141,238,0.2); }
+    .c-name { font-family:var(--font-head); font-weight:700; font-size:0.92rem; line-height:1.3; }
+    .c-meta { display:flex; justify-content:space-between; font-size:0.75rem; color:var(--muted); margin-top:auto; padding-top:0.5rem; border-top:1px solid var(--border); }
+
+    .cert-featured { padding:1.5rem 1.8rem; border-radius:12px; display:flex; align-items:center; gap:1.2rem; background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(91,141,238,0.05)); border:1px solid rgba(167,139,250,0.25); margin-bottom:1.5rem; }
+    .cf-icon { font-size:2.2rem; flex-shrink:0; }
+    .cf-title { font-family:var(--font-head); font-weight:700; font-size:1.05rem; margin-bottom:0.3rem; }
+    .cf-desc { font-size:0.85rem; color:var(--muted); line-height:1.6; }
+    .cf-desc strong { color:var(--text); }
+
+    /* CONTACT */
+    #contato { background:var(--bg2); border-top:1px solid var(--border); }
+    .contact-wrap { max-width:600px; margin:0 auto; text-align:center; }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2.5rem; }
+    .c-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.4rem; text-align:left; text-decoration:none; color:var(--text); transition:border-color 0.2s,transform 0.15s; display:block; }
+    .c-card:hover { border-color:rgba(91,141,238,0.35); transform:translateY(-2px); }
+    .c-card .ic { font-size:1.5rem; margin-bottom:0.6rem; display:block; }
+    .c-card strong { display:block; font-size:0.95rem; font-weight:600; margin-bottom:0.2rem; }
+    .c-card span { font-size:0.82rem; color:var(--muted); }
+
+    footer { text-align:center; padding:2rem; border-top:1px solid var(--border); color:var(--muted); font-size:0.82rem; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease,transform 0.65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    @media(max-width:768px){
+      nav{padding:1rem 1.5rem} .nav-links{display:none}
+      section{padding:4rem 1.5rem}
+      .about-grid{grid-template-columns:1fr;gap:2rem}
+      .proj-inner{grid-template-columns:1fr} .pv{display:none}
+      .contact-grid{grid-template-columns:1fr}
+      .stats-strip{gap:2rem}
+      .cert-featured{flex-direction:column;text-align:center}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">KS<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projetos">Projetos</a></li>
+    <li><a href="#certificacoes">Certificações</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="glow1"></div>
+  <div class="glow2"></div>
+  <div class="hero-content">
+    <div class="badge">Disponível para oportunidades — Queimados, RJ</div>
+    <h1>Kawã Santos<br /><span class="acc">Full-Stack + Cyber.</span></h1>
+    <p class="hero-desc">
+      Desenvolvedor full-stack e entusiasta de cibersegurança. Construo sistemas reais —
+      do banco de dados à interface — com foco em <strong>segurança desde o design</strong>.
+      Autodidata, apaixonado por TI, sempre aprendendo.
+    </p>
+    <div class="hero-actions">
+      <a href="#projetos" class="btn-p">Ver projetos →</a>
+      <a href="#contato" class="btn-o">Entre em contato</a>
+    </div>
+    <div class="stats-strip">
+      <div class="stat-item"><strong>3</strong><span>Sistemas reais</span></div>
+      <div class="stat-item"><strong>7+</strong><span>Linguagens</span></div>
+      <div class="stat-item"><strong>5</strong><span>Certificações</span></div>
+      <div class="stat-item"><strong>Gov. Federal</strong><span>Hackers do Bem</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="inner">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p class="sec-label">Sobre mim</p>
+        <h2 class="sec-title">Dev que constrói.<br />Não só estuda.</h2>
+        <p>Sou <strong>Kawã Santos</strong>, desenvolvedor full-stack autodidata de Queimados, RJ. Aprendi programação construindo sistemas reais para problemas reais.</p>
+        <p>Trabalho com <strong>Python, Java, JavaScript, PHP, Kotlin, C++ e C#</strong>, com foco em desenvolvimento web full-stack aliado à <strong>cibersegurança</strong> — duas áreas que se complementam.</p>
+        <p>Participo do <strong>Programa Hackers do Bem</strong> — iniciativa do Ministério da Ciência, Tecnologia e Inovações com SENAI e Softex. Entendo inglês técnico e acompanho documentações internacionais.</p>
+        <div class="highlight-box">
+          <span style="font-size:1.3rem">🎯</span>
+          <span>Em andamento: Java, COBOL, Ruby + formação completa em cibersegurança pelo Hackers do Bem.</span>
+        </div>
+      </div>
+      <div class="reveal" style="display:flex;flex-direction:column;gap:1rem">
+        <div class="s-card" style="background:linear-gradient(135deg,rgba(91,141,238,0.08),rgba(91,141,238,0.02))">
+          <div style="font-size:2rem;margin-bottom:0.5rem">⚡</div>
+          <div style="font-family:var(--font-head);font-weight:700;margin-bottom:0.4rem">Sistemas Completos</div>
+          <div style="font-size:0.87rem;color:var(--muted)">Front, back, banco, auth, tempo real. Do zero ao deploy.</div>
+        </div>
+        <div class="s-card" style="background:linear-gradient(135deg,rgba(52,211,153,0.08),rgba(52,211,153,0.02))">
+          <div style="font-size:2rem;margin-bottom:0.5rem">🔐</div>
+          <div style="font-family:var(--font-head);font-weight:700;margin-bottom:0.4rem">Segurança em Primeiro Lugar</div>
+          <div style="font-size:0.87rem;color:var(--muted)">JWT, RLS, detecção de phishing por IA, auditoria Web3. Segurança não é feature — é base.</div>
+        </div>
+        <div class="s-card" style="background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(167,139,250,0.02))">
+          <div style="font-size:2rem;margin-bottom:0.5rem">🚀</div>
+          <div style="font-family:var(--font-head);font-weight:700;margin-bottom:0.4rem">Propósito Real</div>
+          <div style="font-size:0.87rem;color:var(--muted)">Cada projeto resolve um problema concreto. Não é exercício — é solução pronta.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="inner">
+    <p class="sec-label reveal">Tecnologias</p>
+    <h2 class="sec-title reveal">Stack & Habilidades</h2>
+    <p class="sec-desc reveal">Linguagens, frameworks e ferramentas para construir produtos completos e seguros.</p>
+    <div class="skills-grid">
+      <div class="s-card reveal"><div class="s-head"><div class="s-icon" style="background:rgba(247,223,30,0.1)">🟨</div><span class="s-name">Frontend</span></div><div class="tags"><span class="tag">JavaScript</span><span class="tag">TypeScript</span><span class="tag">Next.js 14</span><span class="tag">React 19</span><span class="tag">Tailwind CSS</span><span class="tag">Framer Motion</span><span class="tag">Vite</span></div></div>
+      <div class="s-card reveal"><div class="s-head"><div class="s-icon" style="background:rgba(91,141,238,0.1)">🔷</div><span class="s-name">Backend</span></div><div class="tags"><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">Socket.IO</span><span class="tag">PHP</span><span class="tag">Python</span><span class="tag">Java</span><span class="tag">JWT</span><span class="tag">REST API</span></div></div>
+      <div class="s-card reveal"><div class="s-head"><div class="s-icon" style="background:rgba(52,211,153,0.1)">🗄️</div><span class="s-name">Banco de Dados</span></div><div class="tags"><span class="tag">PostgreSQL</span><span class="tag">Supabase</span><span class="tag">SQL</span><span class="tag">Modelagem Relacional</span><span class="tag">Normalização</span><span class="tag">RLS</span></div></div>
+      <div class="s-card reveal"><div class="s-head"><div class="s-icon" style="background:rgba(239,68,68,0.1)">🔐</div><span class="s-name">Cibersegurança</span></div><div class="tags"><span class="tag">Hackers do Bem</span><span class="tag">Redes TCP/IP</span><span class="tag">IPv6</span><span class="tag">Linux</span><span class="tag">Scripts Bash</span><span class="tag">Phishing Detection</span></div></div>
+      <div class="s-card reveal"><div class="s-head"><div class="s-icon" style="background:rgba(167,139,250,0.1)">⛓️</div><span class="s-name">Web3 & IA</span></div><div class="tags"><span class="tag">ethers.js</span><span class="tag">Ethereum</span><span class="tag">DeFi</span><span class="tag">Smart Contracts</span><span class="tag">Gemini AI</span><span class="tag">Google GenAI</span></div></div>
+      <div class="s-card reveal"><div class="s-head"><div class="s-icon" style="background:rgba(251,146,60,0.1)">⚙️</div><span class="s-name">Infra & Outros</span></div><div class="tags"><span class="tag">Kotlin</span><span class="tag">C++</span><span class="tag">C#</span><span class="tag">Bash/Shell</span><span class="tag">Cron Jobs</span><span class="tag">PWA</span><span class="tag">Vercel</span><span class="tag">Git</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETOS -->
+<section id="projetos">
+  <div class="inner">
+    <p class="sec-label reveal">Portfólio</p>
+    <h2 class="sec-title reveal">Projetos em Destaque</h2>
+    <p class="sec-desc reveal">Três sistemas completos, construídos do zero com tecnologias modernas e propósito real.</p>
+    <div class="proj-list">
+
+      <!-- PROJETO 1 -->
+      <div class="proj-card reveal">
+        <div class="proj-inner">
+          <div class="pv pv-blue">
+            <div class="browser">
+              <div class="b-bar"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><div class="b-url">loja.sistema.com.br</div></div>
+              <div class="b-body">
+                <div class="mstrip" style="background:linear-gradient(135deg,#1e3a5f,#0d2137)"><div class="mbar w60" style="background:rgba(255,255,255,0.3)"></div><div class="mbar w40" style="background:rgba(255,255,255,0.15)"></div></div>
+                <div class="mgrid"><div class="mcell" style="background:rgba(91,141,238,0.08)"></div><div class="mcell"></div><div class="mcell" style="background:rgba(91,141,238,0.06)"></div><div class="mcell"></div><div class="mcell" style="background:rgba(91,141,238,0.05)"></div><div class="mcell"></div></div>
+                <div class="mbar w90"></div><div class="mbar w50"></div>
+              </div>
+            </div>
+          </div>
+          <div class="proj-info">
+            <p class="proj-type pt-b">Sistema Full-Stack — E-commerce B2B</p>
+            <h3 class="proj-title">Plataforma Digital para Comércio</h3>
+            <p class="proj-desc">Sistema completo para gestão de loja: catálogo, carrinho, painel admin, API REST segura com JWT e integração com WhatsApp para orçamentos automáticos.</p>
+            <ul class="feat-list fl-b">
+              <li>Catálogo com busca, filtros por categoria e produtos em destaque</li>
+              <li>Carrinho de orçamentos com envio automático via WhatsApp</li>
+              <li>Painel admin: pedidos, produtos e profissionais parceiros</li>
+              <li>Autenticação JWT + Row Level Security no Supabase</li>
+              <li>PWA instalável, design premium com Framer Motion</li>
+            </ul>
+            <div class="t-stack"><span class="tt tt-b">Next.js 14</span><span class="tt tt-b">TypeScript</span><span class="tt tt-b">Tailwind</span><span class="tt tt-b">Node.js</span><span class="tt tt-b">Express</span><span class="tt tt-b">Supabase</span><span class="tt tt-b">PostgreSQL</span><span class="tt tt-b">JWT</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJETO 2: XODÓ -->
+      <div class="proj-card reveal">
+        <div class="proj-inner">
+          <div class="pv pv-orange">
+            <div class="browser">
+              <div class="b-bar"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><div class="b-url">xodo.local:3000</div></div>
+              <div class="b-body">
+                <div class="mstrip" style="background:rgba(251,146,60,0.12);border:1px solid rgba(251,146,60,0.2)"><div class="mbar w70" style="background:rgba(251,146,60,0.5)"></div><div class="mbar w40" style="background:rgba(251,146,60,0.25)"></div></div>
+                <div class="mrow"><div class="mavatar" style="background:rgba(251,146,60,0.3)"></div><div class="mlines"><div class="mbar w80" style="height:4px"></div><div class="mbar w50" style="height:4px"></div></div><div class="mdot" style="background:var(--green)"></div></div>
+                <div class="mrow"><div class="mavatar" style="background:rgba(91,141,238,0.3)"></div><div class="mlines"><div class="mbar w60" style="height:4px"></div><div class="mbar w40" style="height:4px"></div></div><div class="mdot" style="background:var(--orange)"></div></div>
+                <div class="mrow"><div class="mavatar" style="background:rgba(52,211,153,0.3)"></div><div class="mlines"><div class="mbar w70" style="height:4px"></div><div class="mbar w30" style="height:4px"></div></div><div class="mdot" style="background:var(--accent)"></div></div>
+                <div class="mbar w60"></div>
+              </div>
+            </div>
+          </div>
+          <div class="proj-info">
+            <p class="proj-type pt-o">Sistema Full-Stack — Delivery & Gestão</p>
+            <h3 class="proj-title">Xodó Digital — Sistema de Pedidos</h3>
+            <p class="proj-desc">Plataforma completa de delivery com notificações em tempo real via Socket.IO, geolocalização, sistema de fidelidade, relatórios financeiros e automações por cron job.</p>
+            <ul class="feat-list fl-o">
+              <li>Pedidos em tempo real com Socket.IO — admin notificado instantaneamente</li>
+              <li>Taxa de entrega calculada por geolocalização (fórmula de Haversine)</li>
+              <li>Cupons de desconto, pontos de fidelidade e avaliações pós-entrega</li>
+              <li>Cancelamento com devolução de estoque automática</li>
+              <li>Relatórios financeiros + backup automático via Cron Job às 2h</li>
+            </ul>
+            <div class="t-stack"><span class="tt tt-o">Node.js</span><span class="tt tt-o">Express</span><span class="tt tt-o">Socket.IO</span><span class="tt tt-o">node-cron</span><span class="tt tt-o">Geolocation</span><span class="tt tt-o">WhatsApp API</span><span class="tt tt-o">Bash</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJETO 3: SECUREDEFI -->
+      <div class="proj-card reveal">
+        <div class="proj-inner">
+          <div class="pv pv-green">
+            <div class="browser">
+              <div class="b-bar"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><div class="b-url">securedefi.app</div></div>
+              <div class="b-body">
+                <div class="mstrip" style="background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.15)"><div class="mbar w60" style="background:rgba(52,211,153,0.4)"></div><div class="mbar w80" style="background:rgba(52,211,153,0.2)"></div></div>
+                <div class="mgrid"><div class="mcell" style="background:rgba(52,211,153,0.06);border-color:rgba(52,211,153,0.15)"></div><div class="mcell" style="background:rgba(91,141,238,0.06)"></div><div class="mcell" style="background:rgba(167,139,250,0.06)"></div></div>
+                <div style="display:flex;gap:0.4rem"><div style="flex:1;height:22px;background:rgba(52,211,153,0.08);border-radius:4px;border:1px solid rgba(52,211,153,0.2)"></div><div style="width:42px;height:22px;background:rgba(52,211,153,0.25);border-radius:4px"></div></div>
+                <div class="mbar w70"></div>
+              </div>
+            </div>
+          </div>
+          <div class="proj-info">
+            <p class="proj-type pt-g">Web3 + IA — Cibersegurança</p>
+            <h3 class="proj-title">SecureDeFi Wallet</h3>
+            <p class="proj-desc">Carteira DeFi com foco em segurança: suporte multi-chain, detecção de phishing, auditoria de smart contracts via IA (Google Gemini) e dashboard de ativos em tempo real.</p>
+            <ul class="feat-list fl-g">
+              <li>Auditoria de contratos inteligentes com Google Gemini AI</li>
+              <li>Detecção de URLs suspeitas e proteção anti-phishing</li>
+              <li>Dashboard multi-chain: ETH, MATIC, USDC, LINK, AAVE</li>
+              <li>Gerenciamento de NFTs (ERC-721 e ERC-1155)</li>
+              <li>Staking, notificações e configurações de segurança avançadas</li>
+            </ul>
+            <div class="t-stack"><span class="tt tt-g">React 19</span><span class="tt tt-g">TypeScript</span><span class="tt tt-g">ethers.js</span><span class="tt tt-g">Gemini AI</span><span class="tt tt-g">Vite</span><span class="tt tt-g">Tailwind</span><span class="tt tt-g">Web3</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /proj-list -->
+  </div>
+</section>
+
+<!-- CERTIFICAÇÕES -->
+<section id="certificacoes">
+  <div class="inner">
+    <p class="sec-label reveal">Formação</p>
+    <h2 class="sec-title reveal">Certificações & Cursos</h2>
+    <p class="sec-desc reveal">Formação técnica contínua por instituições reconhecidas — do IFRS ao Ministério da Ciência e Tecnologia.</p>
+
+    <div class="cert-featured reveal">
+      <div class="cf-icon">🏛️</div>
+      <div>
+        <div class="cf-title">Hackers do Bem — Programa Nacional de Cibersegurança</div>
+        <div class="cf-desc">Nivelamento concluído · <strong>80 horas</strong> · Maio 2026 · Parceria: <strong>Ministério da Ciência, Tecnologia e Inovações</strong> + SENAI + Softex + RNP. Conteúdo: redes TCP/IP, IPv6, Linux, Windows, scripts Bash, lógica de programação e fundamentos de cibersegurança. <strong>Formação em andamento.</strong></div>
+      </div>
+    </div>
+
+    <div class="certs-grid">
+      <div class="cert-card cb reveal"><span class="c-inst ci-b">IFRS — Aprenda Mais</span><span class="c-badge cb-b">⭐ 97,5%</span><span class="c-name">Banco de Dados 1: Fundamentos</span><div class="c-meta"><span>20 horas</span><span>Mar/2026</span></div></div>
+      <div class="cert-card cg reveal"><span class="c-inst ci-g">IFRS — Aprenda Mais</span><span class="c-badge cb-g">✓ Concluído</span><span class="c-name">Estrutura de Dados</span><div class="c-meta"><span>20 horas</span><span>Mar/2026 · 83,3%</span></div></div>
+      <div class="cert-card cg reveal"><span class="c-inst ci-g">IFRS — Aprenda Mais</span><span class="c-badge cb-g">✓ Concluído</span><span class="c-name">Sistemas Operacionais</span><div class="c-meta"><span>20 horas</span><span>Mar/2026 · 80%</span></div></div>
+      <div class="cert-card cg reveal"><span class="c-inst ci-g">IFRS — Aprenda Mais</span><span class="c-badge cb-g">✓ Concluído</span><span class="c-name">Softwares de Segurança da Informação</span><div class="c-meta"><span>20 horas</span><span>Mar/2026 · 80%</span></div></div>
+    </div>
+
+    <div style="margin-top:1.2rem;padding:1rem 1.4rem;background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.2);border-radius:10px;display:flex;align-items:center;gap:0.75rem" class="reveal">
+      <span style="font-size:1.2rem">📖</span>
+      <span style="font-size:0.88rem;color:var(--muted)">Em andamento: <strong style="color:var(--text)">Java</strong>, <strong style="color:var(--text)">COBOL</strong>, <strong style="color:var(--text)">Ruby</strong> + continuação da formação <strong style="color:var(--text)">Hackers do Bem</strong>.</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contact-wrap reveal">
+    <p class="sec-label">Contato</p>
+    <h2 class="sec-title">Vamos conversar?</h2>
+    <p style="color:var(--muted);line-height:1.7;margin-top:0.8rem">Estou disponível para empregos, freelas ou colaboração. Respondo rápido! 😊</p>
+    <div class="contact-grid">
+      <a href="https://wa.me/5521995078663" target="_blank" class="c-card"><span class="ic">💬</span><strong>WhatsApp</strong><span>(21) 99507-8663</span></a>
+      <a href="mailto:kawa24871@gmail.com" class="c-card"><span class="ic">✉️</span><strong>E-mail</strong><span>kawa24871@gmail.com</span></a>
+      <a href="https://linkedin.com/in/kawa-silva-dev" target="_blank" class="c-card"><span class="ic">🔗</span><strong>LinkedIn</strong><span>kawa-silva-dev</span></a>
+      <a href="#" class="c-card" style="cursor:default;opacity:0.45"><span class="ic">💻</span><strong>GitHub</strong><span>Em breve</span></a>
+    </div>
+  </div>
+</section>
+
+<footer><p>Feito com 💙 por <strong>Kawã Santos</strong> — Queimados, RJ · 2026</p></footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold:0.08, rootMargin:'0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
