@@ -1,5 +1,7 @@
 # Kawã Silva dos Santos
 
+![Loop visual do portfólio](assets/portfolio-loop.svg)
+
 <p align="center">
   <img src="assets/portfolio-hero.png" alt="Ilustração de um portfólio técnico com desenvolvimento web, segurança e automação" width="100%" />
 </p>
