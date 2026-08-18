@@ -1,3 +1,5 @@
+![Motion Banner](assets/motion-banner.gif)
+
 # Kawã Silva dos Santos
 
 ![Loop visual do portfólio](assets/portfolio-loop.svg)
