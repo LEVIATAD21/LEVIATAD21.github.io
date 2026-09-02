@@ -12,7 +12,7 @@ A página foi organizada como uma vitrine objetiva para apresentar a trajetória
 
 | Projeto | Descrição | Link |
 | --- | --- | --- |
-| FairMove | Plataforma de mobilidade com arquitetura modular, TypeScript, Node.js e PostgreSQL. | [Abrir repositório](https://github.com/LEVIATAD21/FairMove) |
+| Storefront Catalog | Interface pública de catálogo e experiência de compra para demonstrar organização de produto e navegação web. | [Abrir repositório](https://github.com/LEVIATAD21/storefront-catalog-demo) |
 | eShark | Central de comparação de ofertas por preço, frete, prazo e reputação. | [Abrir repositório](https://github.com/LEVIATAD21/eshark) |
 | Padaria Xodó | Vitrine demonstrativa de pedidos desenvolvida com Next.js e TypeScript. | [Abrir repositório](https://github.com/LEVIATAD21/Padaria-xod-) |
 | AI Agents Team | Experimento em Python para coordenação de agentes de terminal e tarefas colaborativas. | [Abrir repositório](https://github.com/LEVIATAD21/ai-agents-team) |
