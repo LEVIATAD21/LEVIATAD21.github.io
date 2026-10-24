@@ -11,7 +11,7 @@ const PRODUCTS = [
   {id:"pudim",name:"Pudim cremoso",category:"Sobremesas",description:"Textura delicada e caramelo em cada colherada.",price:12.50,unit:"fatia",tag:"Feito para dividir",image:"photo-1488477181946-6428a0291777"},
   {id:"salada-especial",name:"Salada mediterrânea",category:"Entradas",description:"Tomate, folhas, azeitonas e um toque cítrico.",price:21.90,unit:"porção",tag:"Vegetariano",image:"photo-1540189549336-e6e99c3679fe"},
   {id:"prato-casa",name:"Prato da estação",category:"Pratos",description:"Uma composição vibrante com ingredientes da estação.",price:34.90,unit:"prato",tag:"Novidade",image:"photo-1546549032-9571cd6b27df"},
-  {id:"limonada",name:"Limonada fresca",category:"Bebidas",description:"Cítrica, geladinha e feita para refrescar.",price:8.50,unit:"copo 300 ml",tag:"Refrescante",image:"photo-1513558161293-cdaf765edfd4"}
+  {id:"limonada",name:"Limonada fresca",category:"Bebidas",description:"Cítrica, geladinha e feita para refrescar.",price:8.50,unit:"copo 300 ml",tag:"Refrescante",image:"photo-1621263764928-df1444c5e859"}
 ];
 const CATEGORIES = [
   {name:"Todos",icon:"✳",description:"Tudo em um só lugar"},
@@ -23,7 +23,7 @@ const CATEGORIES = [
 const state = {category:"Todos",query:"",sort:"featured",cart:{},favorites:new Set(),activeProduct:null,toastTimer:null,previousFocus:null};
 const money = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
 const byId = (id) => document.getElementById(id);
-const productImage = (product,width) => "https://images.unsplash.com/" + product.image + "?auto=format&fit=crop&w=" + (width || 640) + "&q=82";
+const productImage = (product) => "assets/img/" + product.id + ".webp";
 const escapeHTML = (value) => String(value == null ? "" : value).replace(/[&<>"']/g,(character)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
 const findProduct = (id) => PRODUCTS.find((product)=>product.id===id);
 const cartItems = () => Object.keys(state.cart).map((id)=>({product:findProduct(id),qty:state.cart[id]})).filter((item)=>item.product && item.qty>0);
@@ -71,7 +71,7 @@ function productCard(product){
   const favorite=state.favorites.has(product.id);
   const quantity=state.cart[product.id]||0;
   return '<article class="product-card">'+
-    '<div class="product-image-wrap"><img class="product-image" src="'+productImage(product,640)+'" alt="'+escapeHTML(product.name)+'" loading="lazy">'+
+    '<div class="product-image-wrap"><img class="product-image" src="'+productImage(product)+'" alt="'+escapeHTML(product.name)+'" loading="lazy" decoding="async">'+
     '<span class="product-badge">'+escapeHTML(product.tag)+'</span>'+
     '<button type="button" class="favorite-button'+(favorite?' active':'')+'" data-action="favorite" data-id="'+product.id+'" aria-label="'+(favorite?'Remover dos favoritos':'Adicionar aos favoritos')+': '+escapeHTML(product.name)+'" aria-pressed="'+favorite+'">'+(favorite?'♥':'♡')+'</button></div>'+
     '<div class="product-copy"><div class="product-meta"><span>'+escapeHTML(product.category)+'</span><span>✳ DEMO</span></div>'+
@@ -96,7 +96,7 @@ function renderCart(){
     return;
   }
   byId("cartContent").innerHTML=items.map((item)=>(
-    '<div class="cart-line"><img src="'+productImage(item.product,180)+'" alt="" loading="lazy"><div><p class="cart-line-name">'+escapeHTML(item.product.name)+'</p><p class="cart-line-price">'+money.format(item.product.price)+' / '+escapeHTML(item.product.unit)+'</p><div class="qty-controls"><button type="button" data-action="decrease" data-id="'+item.product.id+'" aria-label="Diminuir '+escapeHTML(item.product.name)+'">−</button><span>'+item.qty+'</span><button type="button" data-action="add" data-id="'+item.product.id+'" aria-label="Aumentar '+escapeHTML(item.product.name)+'">+</button></div></div><span class="cart-line-total">'+money.format(item.product.price*item.qty)+'</span></div>'
+    '<div class="cart-line"><img src="'+productImage(item.product)+'" alt="" loading="lazy" decoding="async"><div><p class="cart-line-name">'+escapeHTML(item.product.name)+'</p><p class="cart-line-price">'+money.format(item.product.price)+' / '+escapeHTML(item.product.unit)+'</p><div class="qty-controls"><button type="button" data-action="decrease" data-id="'+item.product.id+'" aria-label="Diminuir '+escapeHTML(item.product.name)+'">−</button><span>'+item.qty+'</span><button type="button" data-action="add" data-id="'+item.product.id+'" aria-label="Aumentar '+escapeHTML(item.product.name)+'">+</button></div></div><span class="cart-line-total">'+money.format(item.product.price*item.qty)+'</span></div>'
   )).join("");
   byId("drawerFooter").innerHTML='<div class="drawer-total"><span>Total ilustrativo</span><strong>'+money.format(cartTotal())+'</strong></div><button type="button" class="button button-primary" id="reviewOrder">Revisar sacola <span aria-hidden="true">↗</span></button><p class="drawer-note">Nenhum pedido será enviado. Valores apenas demonstrativos.</p>';
   byId("reviewOrder").addEventListener("click",openCheckout);
@@ -127,7 +127,7 @@ function openProduct(id){
   if(!product)return;
   state.activeProduct=id;
   state.previousFocus=document.activeElement;
-  byId("productModalContent").innerHTML='<img class="modal-product-image" src="'+productImage(product,1000)+'" alt="'+escapeHTML(product.name)+'"><div class="modal-product-copy"><div class="product-meta"><span>'+escapeHTML(product.category)+'</span><span>'+escapeHTML(product.tag)+'</span></div><h2 id="modalTitle">'+escapeHTML(product.name)+'</h2><p>'+escapeHTML(product.description)+' Esta descrição e a imagem fazem parte de um conteúdo fictício de demonstração.</p><div class="modal-product-footer"><strong>'+money.format(product.price)+'<small class="product-unit">'+escapeHTML(product.unit)+'</small></strong><button type="button" class="button button-primary" data-action="add-modal" data-id="'+product.id+'">Adicionar à sacola +</button></div></div>';
+  byId("productModalContent").innerHTML='<img class="modal-product-image" src="'+productImage(product)+'" alt="'+escapeHTML(product.name)+'" decoding="async"><div class="modal-product-copy"><div class="product-meta"><span>'+escapeHTML(product.category)+'</span><span>'+escapeHTML(product.tag)+'</span></div><h2 id="modalTitle">'+escapeHTML(product.name)+'</h2><p>'+escapeHTML(product.description)+' Esta descrição e a imagem fazem parte de um conteúdo fictício de demonstração.</p><div class="modal-product-footer"><strong>'+money.format(product.price)+'<small class="product-unit">'+escapeHTML(product.unit)+'</small></strong><button type="button" class="button button-primary" data-action="add-modal" data-id="'+product.id+'">Adicionar à sacola +</button></div></div>';
   byId("productModal").hidden=false;
   document.body.classList.add("locked");
   byId("productModal").querySelector(".close-button").focus();
@@ -158,7 +158,7 @@ function closeAllModals(){
   document.body.classList.remove("locked");
 }
 function handleAction(action,id){
-  if(action==="add"){changeQuantity(id,1);const product=findProduct(id);if(product)showToast(product.name+" adicionado à sacola demonstrativa.");}
+  if(action==="add"){changeQuantity(id,1);const product=findProduct(id);if(product && byId("cartDrawer").hidden)showToast(product.name+" adicionado à sacola demonstrativa.");}
   else if(action==="decrease")changeQuantity(id,-1);
   else if(action==="favorite"){
     if(state.favorites.has(id)){state.favorites.delete(id);showToast("Item removido dos favoritos.");}
