@@ -240,6 +240,40 @@ document.querySelectorAll('a[href="#cardapio"]').forEach((link)=>link.addEventLi
   byId("mobileNav").hidden=true;
   byId("mobileMenuButton").setAttribute("aria-expanded","false");
 }));
+
+function openScreen(name){
+  state.previousFocus=document.activeElement;
+  const content=byId("screenModalContent");
+  const templates={
+    favorites:()=>'<p class="eyebrow">SUA LISTA PESSOAL</p><h2 id="screenTitle">Seus favoritos<span class="heading-period">.</span></h2><p class="screen-lead">Itens que você marcou com carinho nesta sessão.</p><div class="screen-product-grid">'+PRODUCTS.filter(p=>state.favorites.has(p.id)).map(productCard).join("")+'</div>'+(state.favorites.size?'':'<div class="screen-empty"><span>♡</span><h3>Nenhum favorito por enquanto</h3><p>Toque no coração de um item para salvá-lo nesta sessão.</p><button class="button button-primary" data-screen-action="browse">Explorar cardápio ↗</button></div>'),
+    account:()=>'<p class="eyebrow">BEM-VINDO À MESA</p><h2 id="screenTitle">Sua conta<span class="heading-period">.</span></h2><p class="screen-lead">Esta tela demonstra uma futura área de cliente. Não crie uma senha real aqui.</p><form id="demoAccountForm" class="screen-form"><label>Seu nome<input name="name" autocomplete="name" placeholder="Como podemos chamar você?" maxlength="80" required></label><label>E-mail de demonstração<input name="email" type="email" autocomplete="off" placeholder="voce@exemplo.com" maxlength="120" required></label><button class="button button-primary button-full" type="submit">Visualizar minha área ↗</button></form><div class="screen-feature-list"><span>✓ Perfil de cliente (prévia)</span><span>✓ Endereços e preferências (em breve)</span><span>✓ Histórico de pedidos (em breve)</span></div><p class="privacy-note">Os dados digitados não são enviados nem armazenados. A página apenas mostra uma confirmação temporária.</p>',
+    tracking:()=>'<p class="eyebrow">ACOMPANHAMENTO</p><h2 id="screenTitle">Acompanhe seu pedido<span class="heading-period">.</span></h2><p class="screen-lead">Digite um código fictício para visualizar a experiência de rastreamento.</p><form id="trackingForm" class="screen-form"><label>Código do pedido<input name="code" placeholder="Ex.: MESA-2026" maxlength="30" required></label><button class="button button-primary button-full" type="submit">Consultar demonstração ↗</button></form><div id="trackingResult" class="tracking-result" hidden></div><p class="privacy-note">Não existe processamento de pedidos reais neste protótipo.</p>',
+    contact:()=>'<p class="eyebrow">FALE COM A GENTE</p><h2 id="screenTitle">Contato<span class="heading-period">.</span></h2><p class="screen-lead">Uma demonstração de formulário para futuras dúvidas, sugestões ou feedback.</p><form id="demoContactForm" class="screen-form"><label>Nome<input name="name" placeholder="Seu nome" maxlength="80" required></label><label>E-mail<input name="email" type="email" placeholder="voce@exemplo.com" maxlength="120" required></label><label>Mensagem<textarea name="message" rows="4" maxlength="500" placeholder="Como podemos ajudar?" required></textarea></label><button class="button button-primary button-full" type="submit">Pré-visualizar envio ↗</button></form><p class="privacy-note">O formulário não envia e-mail nem transmite informações.</p>',
+    about:()=>'<p class="eyebrow">SOBRE A EXPERIÊNCIA</p><h2 id="screenTitle">Mais simples, à mesa<span class="heading-period">.</span></h2><p class="screen-lead">mesa. é um conceito independente de cardápio digital criado para demonstrar uma experiência de navegação clara, acessível e responsiva.</p><div class="screen-feature-list"><span>01 · Descoberta com busca e categorias</span><span>02 · Detalhes claros para cada item</span><span>03 · Sacola e revisão demonstrativas</span><span>04 · Interface adaptada a celular e computador</span></div><p class="privacy-note">Os produtos, preços, imagens e taxas são fictícios. Não representa um estabelecimento real.</p><button class="button button-primary" data-screen-action="browse">Explorar cardápio ↗</button>',
+    privacy:()=>'<p class="eyebrow">TRANSPARÊNCIA</p><h2 id="screenTitle">Privacidade<span class="heading-period">.</span></h2><p class="screen-lead">Este protótipo funciona no navegador sem backend, contas reais ou envio de formulários.</p><div class="screen-feature-list"><span>✓ Nenhum pedido é enviado.</span><span>✓ Nenhum pagamento é processado.</span><span>✓ Formulários de demonstração não transmitem dados.</span><span>✓ Favoritos e sacola permanecem apenas na memória desta página.</span><span>✓ As fotografias ilustrativas são carregadas do Unsplash.</span></div>'
+  };
+  content.innerHTML=(templates[name]||templates.about)();
+  byId("screenModal").hidden=false;
+  document.body.classList.add("locked");
+  byId("screenModal").querySelector(".close-button").focus();
+  content.querySelectorAll("[data-action]").forEach(button=>button.addEventListener("click",()=>handleAction(button.dataset.action,button.dataset.id)));
+  const accountForm=byId("demoAccountForm");
+  if(accountForm)accountForm.addEventListener("submit",event=>{event.preventDefault();showToast("Prévia de conta exibida. Nenhum dado foi salvo.");closeModal(byId("screenModal"));});
+  const contactForm=byId("demoContactForm");
+  if(contactForm)contactForm.addEventListener("submit",event=>{event.preventDefault();showToast("Prévia do formulário concluída. Nada foi enviado.");closeModal(byId("screenModal"));});
+  const trackingForm=byId("trackingForm");
+  if(trackingForm)trackingForm.addEventListener("submit",event=>{
+    event.preventDefault();
+    const code=new FormData(trackingForm).get("code").toString().trim().toUpperCase().replace(/[^A-Z0-9-]/g,"").slice(0,30);
+    const result=byId("trackingResult");
+    result.hidden=false;
+    result.innerHTML='<strong>Modo demonstração</strong><p>Código consultado: '+escapeHTML(code)+'</p><ol class="tracking-steps"><li class="done">Código recebido no formulário</li><li>Pedido aguardando integração com backend</li><li>Atualizações de entrega indisponíveis</li></ol><small>Este código não corresponde a um pedido real.</small>';
+  });
+  const browse=content.querySelector('[data-screen-action="browse"]');
+  if(browse)browse.addEventListener("click",()=>{closeModal(byId("screenModal"));byId("cardapio").scrollIntoView({behavior:"smooth"});});
+}
+document.querySelectorAll("[data-open-screen]").forEach(button=>button.addEventListener("click",()=>openScreen(button.dataset.openScreen)));
+
 renderCategories();
 renderFilters();
 renderProducts();
