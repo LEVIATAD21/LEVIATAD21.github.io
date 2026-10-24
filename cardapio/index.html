@@ -21,16 +21,16 @@
       <nav class="main-nav" aria-label="Navegação principal">
         <a class="nav-link active" href="#inicio">Início</a>
         <a class="nav-link" href="#cardapio">Cardápio</a>
-        <a class="nav-link" href="#experiencia">A experiência</a>
+        <a class="nav-link" href="#experiencia">A experiência</a><button class="nav-link nav-button" type="button" data-open-screen="favorites">Favoritos ♡</button><button class="nav-link nav-button" type="button" data-open-screen="tracking">Acompanhar pedido</button>
       </nav>
       <div class="header-actions">
         <label class="search-box" for="searchInput"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Buscar no cardápio" autocomplete="off" aria-label="Buscar itens no cardápio"></label>
-        <button class="cart-button" id="openCart" type="button" aria-haspopup="dialog"><span aria-hidden="true">▱</span><span class="cart-label">Sacola</span><span class="cart-count" id="cartCount">0</span></button>
+        <button class="account-button" type="button" data-open-screen="account" aria-label="Abrir minha conta">♙ <span>Minha conta</span></button><button class="cart-button" id="openCart" type="button" aria-haspopup="dialog"><span aria-hidden="true">▱</span><span class="cart-label">Sacola</span><span class="cart-count" id="cartCount">0</span></button>
         <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
       </div>
     </div>
     <nav class="mobile-nav" id="mobileNav" aria-label="Navegação móvel" hidden>
-      <a href="#inicio">Início</a><a href="#cardapio">Cardápio</a><a href="#experiencia">A experiência</a>
+      <a href="#inicio">Início</a><a href="#cardapio">Cardápio</a><a href="#experiencia">A experiência</a><button type="button" data-open-screen="favorites">Favoritos ♡</button><button type="button" data-open-screen="tracking">Acompanhar pedido</button><button type="button" data-open-screen="account">Minha conta</button>
     </nav>
   </header>
 
@@ -76,9 +76,10 @@
     <section class="closing-banner section-wrap"><div><p class="eyebrow">SUA PRÓXIMA DESCOBERTA</p><h2>Deixe a curiosidade<br>escolher primeiro.</h2></div><a class="button button-light" href="#cardapio">Ver todos os itens <span aria-hidden="true">↗</span></a><span class="closing-decoration" aria-hidden="true">✳</span></section>
   </main>
 
-  <footer class="site-footer"><div class="footer-main"><a class="brand brand-footer" href="#inicio"><span class="brand-symbol">m<span>.</span></span><span class="brand-name">mesa<span>.</span><small>cardápio digital</small></span></a><p>Uma demonstração independente de interface para cardápios digitais.</p><a href="#inicio" class="back-top">Voltar ao topo ↑</a></div><div class="footer-bottom"><span>© 2026 mesa. · Protótipo para portfólio</span><span>Sem pedidos reais · Sem pagamentos · Sem coleta de dados</span><a href="https://github.com/LEVIATAD21/LEVIATAD21.github.io/tree/main/cardapio" rel="noopener noreferrer">Código do projeto ↗</a></div></footer>
+  <footer class="site-footer"><div class="footer-main"><a class="brand brand-footer" href="#inicio"><span class="brand-symbol">m<span>.</span></span><span class="brand-name">mesa<span>.</span><small>cardápio digital</small></span></a><p>Uma demonstração independente de interface para cardápios digitais.</p><a href="#inicio" class="back-top">Voltar ao topo ↑</a><div class="footer-links"><button type="button" data-open-screen="about">Sobre o projeto</button><button type="button" data-open-screen="contact">Contato</button><button type="button" data-open-screen="account">Minha conta</button></div></div><div class="footer-bottom"><span>© 2026 mesa. · Protótipo para portfólio</span><span>Sem pedidos reais · Sem pagamentos · Sem coleta de dados</span><button class="footer-action" type="button" data-open-screen="privacy">Privacidade</button><a href="https://github.com/LEVIATAD21/LEVIATAD21.github.io/tree/main/cardapio" rel="noopener noreferrer">Código do projeto ↗</a></div></footer>
 
   <div class="overlay" id="overlay" hidden></div>
+  <div class="modal-shell" id="screenModal" role="dialog" aria-modal="true" aria-labelledby="screenTitle" hidden><div class="modal-card screen-modal-card"><button class="close-button modal-close" data-close-modal type="button" aria-label="Fechar janela">×</button><div id="screenModalContent"></div></div></div>
   <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle" hidden>
     <div class="drawer-header"><div><p class="eyebrow">SUA SELEÇÃO</p><h2 id="cartTitle">Sua sacola<span class="heading-period">.</span></h2></div><button class="close-button" id="closeCart" type="button" aria-label="Fechar sacola">×</button></div>
     <div class="cart-content" id="cartContent"></div>
