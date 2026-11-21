@@ -8,15 +8,15 @@ Portfólio técnico público de Kawã Silva dos Santos, estudante de **Tecnólog
 
 A página foi organizada como uma vitrine objetiva para apresentar a trajetória de estudo, as áreas de interesse e os repositórios públicos que registram a evolução prática do autor. O conteúdo prioriza escopo explícito, documentação objetiva e uma experiência responsiva.
 
-## Projetos públicos em destaque
+## Demonstrações no ar
 
 | Projeto | Descrição | Link |
 | --- | --- | --- |
-| Storefront Catalog | Interface pública de catálogo e experiência de compra para demonstrar organização de produto e navegação web. | [Abrir repositório](https://github.com/LEVIATAD21/storefront-catalog-demo) |
-| eShark | Central de comparação de ofertas por preço, frete, prazo e reputação. | [Abrir repositório](https://github.com/LEVIATAD21/eshark) |
-| Padaria Xodó | Vitrine demonstrativa de pedidos desenvolvida com Next.js e TypeScript. | [Abrir repositório](https://github.com/LEVIATAD21/Padaria-xod-) |
-| AI Agents Team | Experimento em Python para coordenação de agentes de terminal e tarefas colaborativas. | [Abrir repositório](https://github.com/LEVIATAD21/ai-agents-team) |
-| Cardápio | Interface de cardápio digital com filtros e sacola mantida durante a sessão. | [Abrir repositório](https://github.com/LEVIATAD21/cardapio) |
+| Padaria Xodó | Site de padaria e confeitaria com vitrine de produtos, kits festa e pedidos. | [Abrir demo](https://leviatad21.github.io/padaria/) |
+| mesa. — Cardápio | Protótipo de cardápio digital com categorias, filtros e sacola de demonstração. | [Abrir demo](https://leviatad21.github.io/cardapio/) |
+| mesa. — Sistema | Cardápio digital com painel de gestão para restaurantes (demonstração). | [Abrir demo](https://leviatad21.github.io/sistema/) |
+
+O código-fonte das demonstrações está nas pastas `padaria/`, `cardapio/` e `sistema/` deste repositório. Outros projetos (como NEXUS Delivery, Leviatã e AI Agents Team) ainda são privados e podem ser apresentados em entrevista.
 
 ## Tecnologias e práticas
 
