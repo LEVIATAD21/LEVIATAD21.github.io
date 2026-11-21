@@ -16,7 +16,15 @@ A página foi organizada como uma vitrine objetiva para apresentar a trajetória
 | mesa. — Cardápio | Protótipo de cardápio digital com categorias, filtros e sacola de demonstração. | [Abrir demo](https://leviatad21.github.io/cardapio/) |
 | mesa. — Sistema | Cardápio digital com painel de gestão para restaurantes (demonstração). | [Abrir demo](https://leviatad21.github.io/sistema/) |
 
-O código-fonte das demonstrações está nas pastas `padaria/`, `cardapio/` e `sistema/` deste repositório. Outros projetos (como NEXUS Delivery, Leviatã e AI Agents Team) ainda são privados e podem ser apresentados em entrevista.
+O código-fonte das demonstrações está nas pastas `padaria/`, `cardapio/` e `sistema/` deste repositório.
+
+## Repositórios públicos
+
+| Projeto | Descrição | Link |
+| --- | --- | --- |
+| NEXUS Delivery | App de delivery em React Native/Expo com backend NestJS, Prisma e PostgreSQL, testes e CI. | [Abrir repositório](https://github.com/LEVIATAD21/NEXUS-Delivery) |
+| Leviatã | Agente de IA para terminal em Python, com política de execução, testes e catálogo OWASP/CWE. | [Abrir repositório](https://github.com/LEVIATAD21/leviata) |
+| AI Agents Team | Experimento em Python para coordenação de agentes de terminal, com modo seguro e testes de política. | [Abrir repositório](https://github.com/LEVIATAD21/ai-agents-team) |
 
 ## Tecnologias e práticas
 
